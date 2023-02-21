@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include juwel_erp_customization *.css
+recursive-include juwel_erp_customization *.csv
+recursive-include juwel_erp_customization *.html
+recursive-include juwel_erp_customization *.ico
+recursive-include juwel_erp_customization *.js
+recursive-include juwel_erp_customization *.json
+recursive-include juwel_erp_customization *.md
+recursive-include juwel_erp_customization *.png
+recursive-include juwel_erp_customization *.py
+recursive-include juwel_erp_customization *.svg
+recursive-include juwel_erp_customization *.txt
+recursive-exclude juwel_erp_customization *.pyc
