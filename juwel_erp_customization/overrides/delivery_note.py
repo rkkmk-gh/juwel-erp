@@ -5,4 +5,4 @@ class JGDeliveryNote(DeliveryNote):
         if item and item.stock_account:
             args.account = item.stock_account
         
-        super.get_gl_doct(self, args, account_currency, item)
+        super().get_gl_dict(args, account_currency, item)
