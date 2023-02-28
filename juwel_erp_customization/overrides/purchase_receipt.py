@@ -1,7 +1,7 @@
-from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
+from erpnext.stock.doctype.purchase_receipt.purchase_receipt import PurchaseReceipt
 from .gl_utils import update_gl_dict
 
-class JGStockEntry(StockEntry):
+class JGPurchaseReceipt(PurchaseReceipt):
 
     def get_gl_dict(self, args, account_currency=None, item=None):
 
