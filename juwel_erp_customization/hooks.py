@@ -96,7 +96,8 @@ app_license = "MIT"
 
 override_doctype_class = {
 	"Delivery Note": "juwel_erp_customization.overrides.delivery_note.JGDeliveryNote",
-	"Stock Entry": "juwel_erp_customization.overrides.stock_entry.JGStockEntry"
+    "Stock Entry": "juwel_erp_customization.overrides.stock_entry.JGStockEntry",
+    "Purchase Receipt": "juwel_erp_customization.overrides.purchase_receipt.JGPurchaseReceipt"
 }
 
 # Document Events
