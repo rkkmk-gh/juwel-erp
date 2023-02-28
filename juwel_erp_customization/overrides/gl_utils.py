@@ -9,6 +9,6 @@ def update_gl_dict(args, account_currency=None, item=None, company=None):
             if stock_account:
                 account_currency = frappe.db.get_value('Account',stock_account,'account_currency')
                 if args["debit"] < 0:
-                    args["against"] = stock_account
-                else: 
                     args["account"] = stock_account
+                else: 
+                    args["against"] = stock_account
