@@ -16,4 +16,4 @@ class JGStockReconciliation(StockReconciliation):
                 else:
                     args['against'] = stock_account
                     
-            return super().get_gl_dict(args, account_currency, item)
+        return super().get_gl_dict(args, account_currency, item)
