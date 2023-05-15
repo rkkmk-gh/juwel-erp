@@ -9,9 +9,8 @@ class JGStockReconciliation(StockReconciliation):
         if item:
             item_code = frappe.db.get_value('Stock Reconciliation Item',{"name":item.name},'item_code')
             stock_account = frappe.db.get_value('Item Default',{"parent":item_code, "company":self.company},'default_stock_account')
-
             if stock_account:
-                if args.get('debit') < 0:
+                if args.get('debit') > 0:
                     args['account'] = stock_account
                 else:
                     args['against'] = stock_account
