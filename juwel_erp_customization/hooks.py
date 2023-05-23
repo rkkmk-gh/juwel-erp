@@ -98,7 +98,8 @@ override_doctype_class = {
 	"Delivery Note": "juwel_erp_customization.overrides.delivery_note.JGDeliveryNote",
     "Stock Entry": "juwel_erp_customization.overrides.stock_entry.JGStockEntry",
     "Purchase Receipt": "juwel_erp_customization.overrides.purchase_receipt.JGPurchaseReceipt",
-    "Stock Reconciliation": "juwel_erp_customization.overrides.stock_reconciliation.JGStockReconciliation"
+    "Stock Reconciliation": "juwel_erp_customization.overrides.stock_reconciliation.JGStockReconciliation",
+    "Payment Entry": "juwel_erp_customization.overrides.payment_entry.JGPaymentEntry"
 }
 
 # Document Events
