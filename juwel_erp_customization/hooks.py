@@ -194,3 +194,4 @@ override_doctype_class = {
 # auth_hooks = [
 #	"juwel_erp_customization.auth.validate"
 # ]
+on_session_creation = "juwel_erp_customization.overrides.session_init.set_session_defaults"
