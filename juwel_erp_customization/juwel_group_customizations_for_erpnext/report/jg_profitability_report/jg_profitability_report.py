@@ -23,7 +23,6 @@ def execute(filters=None):
 	based_on = filters.based_on.replace(" ", "_").lower()
 	validate_filters(filters)
 	accounts = get_accounts_data(based_on, filters.get("company"))
-	print('accounts ', accounts)
 
 	data = get_data(accounts, filters, based_on)
 	columns = get_columns(filters)
@@ -210,7 +209,7 @@ def set_gl_entries_by_account(
 	for key, value in filters.items():
 			if value:
 				gl_filters.update({key: value})
-				
+
 	additional_conditions =  []
 	additional_conditions.append(get_additional_conditions(from_date, ignore_closing_entries, filters))
 
@@ -219,8 +218,6 @@ def set_gl_entries_by_account(
 
 	if from_date:
 		additional_conditions.append("and posting_date >= %(from_date)s")
-
-	print('additional conditions ', additional_conditions)
 
 	gl_entries = frappe.db.sql(
 		"""select posting_date, {based_on} as based_on, debit, credit,
