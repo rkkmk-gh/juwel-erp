@@ -16,6 +16,7 @@ class JGPaymentEntry(PaymentEntry):
 			for d in self.taxes:
 				if self.paid_from_account_currency != self.company_currency and d.charge_type == 'Actual':
 					d.tax_amount = d.tax_amount * self.source_exchange_rate
+	
 	def get_order_net_total(self):
 		# custom override since latest v-14 implementation includes logic that relies on a referenced purchase order
 		return flt(self.paid_amount) - flt(self.unallocated_amount)
