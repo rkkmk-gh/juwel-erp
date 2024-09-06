@@ -16,11 +16,14 @@ class JGPaymentEntry(PaymentEntry):
 			for d in self.taxes:
 				if self.paid_from_account_currency != self.company_currency and d.charge_type == 'Actual':
 					d.tax_amount = d.tax_amount * self.source_exchange_rate
+			self.apply_taxes()
+			self.set_amounts_after_tax()
 	
-	def get_order_net_total(self):
+	def calculate_tax_withholding_net_total(self):
 		# custom override since latest v-14 implementation includes logic that relies on a referenced purchase order
 		return flt(self.paid_amount) - flt(self.unallocated_amount)
-		
+
+
 	def set_amounts_after_tax(self):
 		applicable_tax = 0
 		base_applicable_tax = 0
@@ -37,7 +40,7 @@ class JGPaymentEntry(PaymentEntry):
 		self.paid_amount_after_tax = flt(
 			flt(self.paid_amount) + flt(applicable_tax), self.precision("paid_amount_after_tax")
 		)
-
+		
 		self.base_paid_amount_after_tax = flt(
 			flt(self.paid_amount_after_tax) * flt(self.source_exchange_rate),
 			self.precision("base_paid_amount_after_tax"),
@@ -74,4 +77,4 @@ class JGPaymentEntry(PaymentEntry):
 				self.precision("base_paid_amount_after_tax"),
 			)
 		
-				
+
