@@ -21,7 +21,7 @@ class JGPaymentEntry(PaymentEntry):
 	
 	def calculate_tax_withholding_net_total(self):
 		# custom override since latest v-14 implementation includes logic that relies on a referenced purchase order
-		return flt(self.paid_amount) - flt(self.unallocated_amount)
+		return flt(self.paid_amount)
 
 
 	def set_amounts_after_tax(self):
