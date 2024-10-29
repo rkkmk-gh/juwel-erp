@@ -1,3 +1,62 @@
+async function embedDashboard (
+	dashboardName,
+	supersetDomain,
+	mountPoint
+) {
+	const urlParamsString = "?standalone=true"
+	console.log("superset domain", supersetDomain)
+	if (supersetDomain.endsWith("/")) {
+		supersetDomain = supersetDomain.slice(0, -1);
+	}
+
+	async function mountIframe () {
+		const iframe = document.createElement('iframe');
+
+		// add the event listener before setting src, to be 100% sure that we capture the load event
+		iframe.addEventListener('load', () => {
+			// MessageChannel allows us to send and receive messages smoothly between our window and the iframe
+			// See https://developer.mozilla.org/en-US/docs/Web/API/Channel_Messaging_API
+			const commsChannel = new MessageChannel();
+			const ourPort = commsChannel.port1;
+			const theirPort = commsChannel.port2;
+
+			ourPort.onmessage = onMessage;
+
+			// Send one of the message channel ports to the iframe to initialize embedded comms
+			// See https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage
+			// we know the content window isn't null because we are in the load event handler.
+			iframe.contentWindow.postMessage(
+				{ type: "__embedded_comms__", handshake: "port transfer" },
+				supersetDomain,
+				[theirPort],
+			);
+		});
+
+		iframe.src = `${supersetDomain}/superset/dashboard/${dashboardName}${urlParamsString}`;
+		//iframe.title = iframeTitle;
+		mountPoint.replaceChildren(iframe);
+	}
+
+	const [ourPort] = await Promise.all([
+		mountIframe(),
+	]);
+
+	function unmount () {
+		mountPoint.replaceChildren();
+	}
+
+	const getScrollSize = () => ourPort.get('getScrollSize');
+
+	function onMessage (e) {
+		console.log(e.data);
+	}
+
+	return {
+		getScrollSize,
+		unmount,
+	};
+}
+
 frappe.pages['insight_dashboards'].on_page_load = function (wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
@@ -5,13 +64,10 @@ frappe.pages['insight_dashboards'].on_page_load = function (wrapper) {
 		single_column: true
 	});
 
-	let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-	let vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	const dashboard = urlParams.get("dashboard");
-
 	document.querySelector('.page-head').remove();
-	page.main.append('<iframe scrolling="no" style="width: ' + vw + 'px; border: none;margin: 0;padding: 0;overflow: hidden;z-index: 999999;height: ' + vh + 'px;" src="https://jg-insights.keenconsults.com/superset/dashboard/' + dashboard + '/?standalone=true"></iframe>');
-	//document.getElementByClassName("page-head-content").remove();
+	//page.main.append('<iframe id="myIframe" scrolling="no" src="https://jg-insights.keenconsults.com/superset/dashboard/' + dashboard + '/?standalone=true"></iframe>');
+
+	page.main.append('<script type="module" src="https://unpkg.com/@superset-ui/switchboard@0.20.2/lib/switchboard.js"></script>');
+	embedDashboard("tar_due", "https://jg-insights.keenconsults.com", document.getElementById("body"))
+
 }
