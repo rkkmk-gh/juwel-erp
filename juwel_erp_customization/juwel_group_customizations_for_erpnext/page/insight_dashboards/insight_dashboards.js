@@ -42,8 +42,10 @@ frappe.pages['insight_dashboards'].on_page_load = function (wrapper) {
 		title: 'Insights',
 		single_column: true
 	});
-	this.page.body.append('<div id="iframe-area"></div>');
-	embedDashboard("tar_due", "https://jg-insights.keenconsults.com", document.getElementById("iframe-area"))
+	page.body.append('<div id="iframe-area"></div>');
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	embedDashboard(urlParams.get('dashboard'), "https://jg-insights.keenconsults.com", document.getElementById("iframe-area"))
 	document.getElementsByClassName("page-head")[0].innerHTML = ""
 
 }
