@@ -1,10 +1,11 @@
 
 async function embedDashboard (
 	dashboardName,
+	origin,
 	supersetDomain,
 	mountPoint
 ) {
-	const urlParamsString = "?standalone=true"
+	const urlParamsString = "?standalone=true&origin="+origin
 
 	if (supersetDomain.endsWith("/")) {
 		supersetDomain = supersetDomain.slice(0, -1);
@@ -45,7 +46,7 @@ frappe.pages['insight_dashboards'].on_page_load = function (wrapper) {
 	page.body.append('<div id="iframe-area"></div>');
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
-	embedDashboard(urlParams.get('dashboard'), "https://jg-insights.keenconsults.com", document.getElementById("iframe-area"))
+	embedDashboard(urlParams.get('dashboard'), urlParams.get('origin'), "https://jg-insights.keenconsults.com", document.getElementById("iframe-area"))
 	document.getElementsByClassName("page-head")[0].innerHTML = ""
 
 }
