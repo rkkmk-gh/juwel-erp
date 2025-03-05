@@ -113,6 +113,11 @@ override_doctype_class = {
 #		"on_trash": "method"
 #	}
 # }
+doc_events = {
+    "File" : {
+        "on_trash": "juwel_erp_customization.overrides.access_control.before_file_delete"
+    }
+}
 
 # Scheduled Tasks
 # ---------------
@@ -143,9 +148,10 @@ override_doctype_class = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "juwel_erp_customization.event.get_events"
-# }
+override_whitelisted_methods = {
+    "frappe.desk.query_report.run": "juwel_erp_customization.overrides.activity_log.recorded_report_run"
+}
+
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
